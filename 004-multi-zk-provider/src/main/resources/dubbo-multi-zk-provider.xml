@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="004-multi-zk-provider" />
+
+    <dubbo:registry address="zookeeper://localhost:2181"/>
+
+    <!-- 多个实现类使用版本号 version 来做区别 -->
+    <dubbo:service interface="com.lyw.service.SomeService" ref="someService" version="1.0"/>
+    <!-- 引用另一个实现类 -->
+    <dubbo:service interface="com.lyw.service.SomeService" ref="newSomeService" version="2.0"/>
+
+    <bean id="someService" class="com.lyw.service.impl.SomeServiceImpl"/>
+    <!-- 创建另一个服务接口的实现类 -->
+    <bean id="newSomeService" class="com.lyw.service.impl.NewSomeServiceImpl"/>
+
+    <!-- 自动发现监控中心 -->
+    <dubbo:monitor protocol="registry"/>
+
+</beans>

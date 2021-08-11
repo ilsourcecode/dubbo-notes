@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="004-multi-zk-consumer"/>
+
+    <dubbo:registry address="zookeeper://localhost:2181"/>
+
+    <!-- 引用同一个服务接口的不同版本的实现类 -->
+    <dubbo:reference interface="com.lyw.service.SomeService" id="someService" check="false" version="1.0"/>
+    <dubbo:reference interface="com.lyw.service.SomeService" id="newSomeService" check="false" version="2.0"/>
+
+    <!-- 自动发现监控中心 -->
+    <dubbo:monitor protocol="registry"/>
+    <!-- 直连监控中心 -->
+    <!--<dubbo:monitor address="127.0.0.1:7070"/>-->
+</beans>
